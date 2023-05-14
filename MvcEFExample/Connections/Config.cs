@@ -9,8 +9,6 @@
             IConfiguration configuration = builder.Build();
             string constring = configuration.GetValue<string>("ConnectionStrings:InventoryDatabase");
             return (constring);
-
-            // return ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
         }
     }
 }

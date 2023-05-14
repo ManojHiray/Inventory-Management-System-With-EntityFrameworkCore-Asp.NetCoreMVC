@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using MvcEFExample.Connections;
 
 namespace MvcEFExample.Models
 {
     public partial class InventoryContext : DbContext
     {
-        //public InventoryContext()
-        //{
-        //}
-
         public InventoryContext(DbContextOptions<InventoryContext> options)
             : base(options)
         {
@@ -21,8 +19,31 @@ namespace MvcEFExample.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Inventory;Integrated Security=True");
+                try
+                {
+
+
+                    var connectionString = Config.GetConnectionString();
+                    if (connectionString is not null)
+                    {
+                        optionsBuilder.UseSqlServer(connectionString);
+                    }
+                }
+                catch(ArgumentNullException ex)
+                {
+                    // Handle the null argument exception
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+                catch (SqlException ex)
+                {
+                    // Handle the SQL exception
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Handle any other exception
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
         }
 
