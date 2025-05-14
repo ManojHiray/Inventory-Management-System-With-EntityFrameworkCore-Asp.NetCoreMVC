@@ -9,7 +9,7 @@ builder.Services.AddDbContextPool<InventoryContext>(options =>
 
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.   first commit 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
